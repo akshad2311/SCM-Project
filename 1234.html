@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cafe Management System</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1em;
+        }
+
+        section {
+            margin: 20px;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        form {
+            margin-top: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, button {
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Cafe Management System</h1>
+    </header>
+
+    <section>
+        <h2>Menu</h2>
+        <table>
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+                <th>Add to Cart</th>
+            </tr>
+            Espresso
+            <tr>
+                <td>Cappuccino</td>
+                <td>$2.5</td>
+                <td><button onclick="addToCart('Cappuccino', 2.5)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Cafe Mocha</td>
+                <td>$2.3</td>
+                <td><button onclick="addToCart('Cafe Mocha', 2.3)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Hot Caramel</td>
+                <td>$2.5</td>
+                <td><button onclick="addToCart('Hot Caramel', 2.5)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Hot Coffee</td>
+                <td>$2.0</td>
+                <td><button onclick="addToCart('Hot Coffee', 2.0)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Americano</td>
+                <td>$2.2</td>
+                <td><button onclick="addToCart('Americano', 2.2)">Add</button></td>
+            </tr>
+            <hr>
+            ICED
+            <tr>
+                <td>Java Chip Frappe</td>
+                <td>$2.5</td>
+                <td><button onclick="addToCart('Java Chip Frappe', 2.5)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Caramel Frappe</td>
+                <td>$2.2</td>
+                <td><button onclick="addToCart('Caramel Frappe', 2.2)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Iced Tea</td>
+                <td>$1.5</td>
+                <td><button onclick="addToCart('Iced Tea', 1.5)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Cold Coffee</td>
+                <td>$2.0</td>
+                <td><button onclick="addToCart('Cold Coffee', 2.0)">Add</button></td>
+            </tr>
+            <hr>
+            BAKERY
+            <tr>
+                <td>Cookies</td>
+                <td>$1.2</td>
+                <td><button onclick="addToCart('Cookies', 1.2)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Croissant</td>
+                <td>$2.0</td>
+                <td><button onclick="addToCart('Croissant', 2.0)">Add</button></td>
+            </tr>
+            <tr>
+                <td>Muffins</td>
+                <td>$1.5</td>
+                <td><button onclick="addToCart('Muffins', 1.5)">Add</button></td>
+            </tr>
+            <td>For Extra Chocolate: $0.8 <button onclick="addToCart('Extra Chocolate', 0.8)">Add</button></td>
+
+            <!-- Add more menu items as needed -->
+        </table>
+
+        <h2>Shopping Cart</h2>
+        <table id="cartTable">
+            <tr>
+                <th>Item</th>
+                <th>Price</th>
+            </tr>
+        </table>
+
+        <h3>Total: $<span id="total">0.00</span></h3>
+
+        <form>
+            <label for="customerName">Your Name:</label>
+            <input type="text" id="customerName" required>
+
+            <label for="customerEmail">Your Email:</label>
+            <input type="email" id="customerEmail" required>
+
+            <button type="button" onclick="checkout()">Checkout</button>
+        </form>
+    </section>
+
+    <script>
+        let cart = [];
+        let total = 0;
+
+        function addToCart(item, price) {
+            cart.push({ item, price });
+            total += price;
+
+            updateCartTable();
+        }
+
+        function updateCartTable() {
+            const cartTable = document.getElementById('cartTable');
+            const totalSpan = document.getElementById('total');
+
+            // Clear the existing rows
+            while (cartTable.rows.length > 1) {
+                cartTable.deleteRow(1);
+            }
+
+            // Populate the cart table
+            cart.forEach(item => {
+                const row = cartTable.insertRow(-1);
+                const cell1 = row.insertCell(0);
+                const cell2 = row.insertCell(1);
+
+                cell1.textContent = item.item;
+                cell2.textContent = `$${item.price.toFixed(2)}`;
+            });
+
+            // Update the total
+            totalSpan.textContent = total.toFixed(2);
+        }
+
+        function checkout() {
+            const customerName = document.getElementById('customerName').value;
+            const customerEmail = document.getElementById('customerEmail').value;
+
+            // Perform checkout logic (e.g., send order to the server, store in database, etc.)
+            // For simplicity, just display an alert for now
+            alert(`Thank you, ${customerName}! Your order has been placed. Total: $${total.toFixed(2)}`);
+
+            // Reset the cart and form
+            cart = [];
+            total = 0;
+            updateCartTable();
+            document.getElementById('customerName').value = '';
+            document.getElementById('customerEmail').value = '';
+        }
+    </script>
+</body>
+</html>
